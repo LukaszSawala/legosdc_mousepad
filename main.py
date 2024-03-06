@@ -92,31 +92,46 @@ def main():
         wait(100)
     # Sound a beep, which is required for the competition to allow accurate lap-timing.
     brick.speaker.beep(500, 250)
-    # Drive one centimeter
-    output_text("GO!")
-    engine.straight(10)
+  
 
     # Dance sequence for demo purposes
-    output_text("Starting dancing...")
-    brick.speaker.say("Dancing the Self Driving Challenge Dance!")
-    brick.speaker.play_notes(['E4/4', 'C4/4', 'D4/4', 'E4/4', 'D4/4', 'C4/4', 'C4/4', 'E4/4', 'B4/4', 'B4/4', 'A4/4', 'A4/4'], tempo=240)
+   
+    #brick.speaker.say("Dancing the Self Driving Challenge Dance!")
+    #brick.speaker.play_notes(['E4/4', 'C4/4', 'D4/4', 'E4/4', 'D4/4', 'C4/4', 'C4/4', 'E4/4', 'B4/4', 'B4/4', 'A4/4', 'A4/4'], tempo=240)
     
-    
+    output_text("welcome to the jungle...")
     current_distance = infrared_sensor.distance()
     current_direction = "right"
-    steer.run_target(steer_speed // 2, snake_right_angle)
-    snake_left_angle = max_left_angle // 4
-    snake_right_angle = max_right_angle // 4
-    while (True):
-        engine.straight(100)
-        if infrared_sensor.distance() < current_distnace-100:
+    snake_left_angle = max_left_angle 
+    snake_right_angle = max_right_angle 
+    output_text(snake_right_angle)
+    output_text(snake_left_angle)
+    steer.run_target(steer_speed, snake_right_angle)
+    while (not bumper_sensor.pressed()):
+        if current_distance < 3:
+            output_text("going back..")
+            steer.run_target(steer_speed, 0)
+            engine.straight(-200)
             if current_direction == "right":
-                current_direction = "left"
-                steer.run_target(steer_speed // 2, snake_left_angle)
+                output_text("continue right..")
+                steer.run_target(steer_speed, snake_right_angle)
             else:
+                output_text("continue left...")
+                steer.run_target(steer_speed, snake_left_angle)
+        output_text(current_distance)
+        #engine.straight(100)
+        engine.drive(100,10)
+        if infrared_sensor.distance() < current_distance-7:
+            output_text("distance change")
+            if current_direction == "right":
+                output_text("turning left..")
+                current_direction = "left"
+                steer.run_target(steer_speed, snake_left_angle)
+            else:
+                output_text("turning right...")
                 current_direction = "right"
-                steer.run_target(steer_speed // 2, snake_right_angle)
-
+                steer.run_target(steer_speed, snake_right_angle)
+        current_distance = infrared_sensor.distance()
         '''steer.run_target(steer_speed // 2, max_left_angle // 2)
         steer.run_target(steer_speed // 2, max_right_angle // 2)
         steer.run_target(steer_speed // 2, 0)
