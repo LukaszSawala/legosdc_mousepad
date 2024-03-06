@@ -8,6 +8,7 @@ from pybricks.tools import print, wait, StopWatch
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import Font
 
+#test1
 # Get sensor instances
 colour_sensor = ColorSensor(Port.S2)
 bumper_sensor = TouchSensor(Port.S3)
