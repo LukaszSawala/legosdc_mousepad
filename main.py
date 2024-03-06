@@ -100,51 +100,36 @@ def main():
     output_text("Starting dancing...")
     brick.speaker.say("Dancing the Self Driving Challenge Dance!")
     brick.speaker.play_notes(['E4/4', 'C4/4', 'D4/4', 'E4/4', 'D4/4', 'C4/4', 'C4/4', 'E4/4', 'B4/4', 'B4/4', 'A4/4', 'A4/4'], tempo=240)
+    
+    
+    current_distance = infrared_sensor.distance()
+    current_direction = "right"
+    steer.run_target(steer_speed // 2, snake_right_angle)
+    snake_left_angle = max_left_angle // 4
+    snake_right_angle = max_right_angle // 4
     while (True):
-        steer.run_target(steer_speed // 2, max_left_angle // 2)
+        engine.straight(100)
+        if infrared_sensor.distance() < current_distnace-100:
+            if current_direction == "right":
+                current_direction = "left"
+                steer.run_target(steer_speed // 2, snake_left_angle)
+            else:
+                current_direction = "right"
+                steer.run_target(steer_speed // 2, snake_right_angle)
+
+        '''steer.run_target(steer_speed // 2, max_left_angle // 2)
         steer.run_target(steer_speed // 2, max_right_angle // 2)
         steer.run_target(steer_speed // 2, 0)
 
-        steer.run_target(steer_speed * 2, max_left_angle // 2)
-        steer.run_target(steer_speed * 2, max_right_angle // 2)
-        steer.run_target(steer_speed * 2, 0)
-
-        steer.run_target(steer_speed * 2, max_left_angle // 2)
-        steer.run_target(steer_speed * 2, max_right_angle // 2)
-        steer.run_target(steer_speed * 2, 0)
-
         engine.straight(100)
         engine.straight(-100)
-
-        engine.straight(50)
-        engine.straight(-50)
-
-        engine.straight(50)
-        engine.straight(-50)
 
         steer.run_target(steer_speed, max_left_angle)
         engine.straight(100)
         steer.run_target(steer_speed, max_right_angle)
         engine.straight(100)
-        steer.run_target(steer_speed, 0)
+        steer.run_target(steer_speed, 0)'''
 
-        steer.run_target(steer_speed, max_left_angle)
-        engine.straight(-100)
-        steer.run_target(steer_speed, max_right_angle)
-        engine.straight(-100)
-        steer.run_target(steer_speed, 0)
-
-        steer.run_target(steer_speed, max_right_angle)
-        engine.straight(100)
-        steer.run_target(steer_speed, max_left_angle)
-        engine.straight(100)
-        steer.run_target(steer_speed, 0)
-
-        steer.run_target(steer_speed, max_right_angle)
-        engine.straight(-100)
-        steer.run_target(steer_speed, max_left_angle)
-        engine.straight(-100)
-        steer.run_target(steer_speed, 0)
 
 if __name__ == '__main__':
     main()
